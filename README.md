@@ -96,7 +96,7 @@ Edit `capacitor.config.json` and add your keystore details under `android.buildO
 
 Licensed under the Apache License, Version 2.0.
 
-**Attribution**: Tsinephu is a copyrighted name of Quabiccu | 2026
+**Attribution**: Tsinephu is a trademarked name of Quabiccu, Parnik/Parniks/ReParnik/Reparniks as a reference for posts is trademarked as well due to human agency behind it,| Quabiccu 2026
 
 ---
 
