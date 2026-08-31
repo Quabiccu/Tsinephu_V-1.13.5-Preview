@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#DC143C" />
+    <meta name="background-color" content="#ffffff" />
+    <meta name="color-scheme" content="light dark" />
+    
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" href="/icon-72x72.png" />
+    <link rel="apple-touch-icon" href="/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="96x96" href="/icon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/icon-128x128.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="384x384" href="/icon-384x384.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512x512.png" />
+    <link rel="mask-icon" href="/icon-192x192.png" color="#DC143C" />
+    
+    <!-- Apple specific PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Tsinephu" />
+    
+    <!-- iOS splash screen meta -->
+    <meta name="apple-touch-fullscreen" content="yes" />
+    
+    <!-- Microsoft Windows PWA -->
+    <meta name="msapplication-TileColor" content="#DC143C" />
+    <meta name="msapplication-TileImage" content="/icon-144x144.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="msapplication-navbutton-color" content="#DC143C" />
+    <meta name="application-name" content="Tsinephu" />
+    <meta name="msapplication-tooltip" content="Tsinephu Social Media" />
+    <meta name="msapplication-starturl" content="/" />
+    
+    <!-- Android PWA -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#DC143C" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a" />
+    
+    <!-- Description and SEO -->
+    <meta name="description" content="Tsinephu - Share your thoughts as Parniks on a multilingual social media platform with interactive maps and global community" />
+    <meta name="keywords" content="social media, Tsinephu, Parniks, multilingual, maps, community" />
+    <meta name="author" content="Tsinephu" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tsinephu" />
+    <meta property="og:description" content="Share your thoughts as Parniks on a multilingual social media platform" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icon-512x512.png" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tsinephu" />
+    <meta name="twitter:description" content="Share your thoughts as Parniks on a multilingual social media platform" />
+    <meta name="twitter:image" content="/icon-512x512.png" />
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://tile.openstreetmap.org" />
+    <link rel="preconnect" href="https://server.arcgisonline.com" />
+    
+    <title>Tsinephu</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration for PWA -->
+    <script>
+      // Register service worker for PWA capabilities
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              console.log('Service Worker registered with scope:', registration.scope);
+              
+              // Check for updates periodically
+              setInterval(function() {
+                registration.update();
+              }, 60 * 60 * 1000); // Check every hour
+              
+              // Listen for updates
+              registration.addEventListener('updatefound', function() {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', function() {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New version available - notify user
+                    window.dispatchEvent(new CustomEvent('sw-update-available'));
+                  }
+                });
+              });
+            })
+            .catch(function(error) {
+              console.log('Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
